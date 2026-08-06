@@ -2,6 +2,8 @@
 
 Portfólio profissional de Hilson Gabriel Carvalho, desenvolvido para apresentar projetos, experiência e serviços de tecnologia com foco em problemas reais de empresas.
 
+**Produção:** https://hgc-portfolio.vercel.app
+
 ## Tecnologias
 
 - React 19

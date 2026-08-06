@@ -1,14 +1,16 @@
+import { useState } from 'react'
 import { projects } from '../data/portfolio'
 
 function ProjectVisual({ slug }: { slug: string }) {
   if (slug === 'invest') {
     return (
-      <div className="project-visual project-visual--invest" aria-label="Composição visual do site Invest Corretora">
-        <div className="mock-browser"><i /><i /><i /><span>INVEST / SOLUÇÕES</span></div>
-        <div className="invest-screen">
+      <div className="project-canvas project-canvas--invest" aria-label="Prévia conceitual do site Invest Corretora">
+        <div className="canvas-browser"><i /><i /><i /><span>INVEST / SOLUÇÕES</span></div>
+        <div className="invest-canvas">
+          <span className="invest-canvas__seal">I</span>
           <p>Proteção começa com uma escolha bem orientada.</p>
           <div><span>Saúde</span><span>Vida</span><span>Empresa</span></div>
-          <button tabIndex={-1}>Falar com a Invest</button>
+          <b>Falar com a Invest ↗</b>
         </div>
       </div>
     )
@@ -16,57 +18,85 @@ function ProjectVisual({ slug }: { slug: string }) {
 
   if (slug === 'opentask') {
     return (
-      <div className="project-visual project-visual--opentask" aria-label="Composição visual do sistema OpenTask">
-        <div className="task-sidebar"><b>OT</b><i /><i /><i /></div>
-        <div className="task-board">
-          <div><span>Fila operacional</span><strong>12</strong></div>
-          <div className="task-row"><i /> Notebook sem acesso <span>Em análise</span></div>
-          <div className="task-row"><i /> Entrega de equipamento <span>Novo</span></div>
-          <div className="task-row"><i /> Ajuste de permissões <span>Resolvido</span></div>
+      <div className="project-canvas project-canvas--opentask" aria-label="Prévia conceitual do sistema OpenTask">
+        <aside><b>OT</b><i /><i /><i /></aside>
+        <div className="opentask-canvas">
+          <header><span>WORKSPACE / FILA OPERACIONAL</span><strong>12</strong></header>
+          <p><i />Notebook sem acesso <span>EM ANÁLISE</span></p>
+          <p><i />Entrega de equipamento <span>NOVO</span></p>
+          <p><i />Ajuste de permissões <span>RESOLVIDO</span></p>
         </div>
       </div>
     )
   }
 
   return (
-    <div className="project-visual project-visual--flow" aria-label="Composição visual de um fluxo de atendimento">
-      <span className="flow-node flow-node--start">Entrada</span>
-      <span className="flow-node flow-node--qualify">Qualificar</span>
-      <span className="flow-node flow-node--check">Validar</span>
-      <span className="flow-node flow-node--human">Humano</span>
-      <i className="flow-line flow-line--a" /><i className="flow-line flow-line--b" /><i className="flow-line flow-line--c" />
-      <div className="flow-log"><b>QA / EXECUÇÃO</b><span>persistência · fallback · webhook</span></div>
+    <div className="project-canvas project-canvas--flow" aria-label="Prévia conceitual de um fluxo de atendimento">
+      <div className="flow-grid" />
+      <span className="flow-pill flow-pill--one">ENTRADA</span>
+      <span className="flow-pill flow-pill--two">QUALIFICAR</span>
+      <span className="flow-pill flow-pill--three">VALIDAR</span>
+      <span className="flow-pill flow-pill--four">HUMANO</span>
+      <i className="flow-route flow-route--one" /><i className="flow-route flow-route--two" /><i className="flow-route flow-route--three" />
+      <div className="flow-console"><b>QA / EXECUÇÃO</b><span>persistência · fallback · webhook</span><i /></div>
     </div>
   )
 }
 
 export function Projects() {
+  const [active, setActive] = useState(0)
+  const [expanded, setExpanded] = useState<string | null>(projects[0].slug)
+  const project = projects[active]
+
   return (
-    <section className="section projects" id="projetos" aria-labelledby="projects-title">
-      <div className="section-index" aria-hidden="true">03 / PROJETOS</div>
-      <div className="section-heading" data-reveal>
-        <p className="eyebrow">Trabalho selecionado</p>
-        <h2 id="projects-title">Projetos explicados pelo problema que resolvem.</h2>
+    <section className="projects-v2" id="projetos" aria-labelledby="projects-title">
+      <div className="section-kicker section-kicker--light" data-reveal><span>03</span><p>TRABALHO SELECIONADO / CASOS REAIS</p></div>
+      <div className="projects-v2__heading" data-reveal>
+        <h2 id="projects-title">Trabalho que começa<br />com um <em>problema.</em></h2>
+        <p>Passe pelos projetos para explorar. Clique para entender o contexto, a solução e a minha atuação.</p>
       </div>
 
-      <div className="projects__list">
-        {projects.map((project, index) => (
-          <article className="project" key={project.slug} data-reveal>
-            <div className="project__number">{String(index + 1).padStart(2, '0')}</div>
-            <div className="project__copy">
-              <p className="project__label">{project.label}</p>
-              <h3>{project.title}</h3>
-              <dl>
-                <div><dt>Contexto</dt><dd>{project.context}</dd></div>
-                <div><dt>Solução</dt><dd>{project.solution}</dd></div>
-                <div><dt>Atuação</dt><dd>{project.role}</dd></div>
-              </dl>
-              <div className="tag-list">{project.technologies.map((tech) => <span key={tech}>{tech}</span>)}</div>
-              <p className="project__status"><i /> {project.status}</p>
-            </div>
+      <div className="project-showcase">
+        <div className="project-list" data-reveal>
+          {projects.map((item, index) => {
+            const isExpanded = expanded === item.slug
+            return (
+              <article className={active === index ? 'project-row is-active' : 'project-row'} key={item.slug}>
+                <button
+                  type="button"
+                  onMouseEnter={() => setActive(index)}
+                  onFocus={() => setActive(index)}
+                  onClick={() => {
+                    setActive(index)
+                    setExpanded(isExpanded ? null : item.slug)
+                  }}
+                  aria-expanded={isExpanded}
+                  data-cursor="ABRIR"
+                >
+                  <span>0{index + 1}</span>
+                  <div><h3>{item.title}</h3><p>{item.label}</p></div>
+                  <i aria-hidden="true">↗</i>
+                </button>
+                <div className={isExpanded ? 'project-row__details is-open' : 'project-row__details'}>
+                  <div>
+                    <p><b>Contexto</b>{item.context}</p>
+                    <p><b>Solução</b>{item.solution}</p>
+                    <p><b>Atuação</b>{item.role}</p>
+                    <ul>{item.technologies.map((tech) => <li key={tech}>{tech}</li>)}</ul>
+                  </div>
+                </div>
+              </article>
+            )
+          })}
+        </div>
+
+        <div className="project-stage" data-reveal aria-live="polite">
+          <div className="project-stage__frame" key={project.slug}>
+            <div className="project-stage__top"><span>{project.label}</span><span>0{active + 1} / 03</span></div>
             <ProjectVisual slug={project.slug} />
-          </article>
-        ))}
+            <div className="project-stage__status"><i />{project.status}</div>
+          </div>
+        </div>
       </div>
     </section>
   )

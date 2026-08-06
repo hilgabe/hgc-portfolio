@@ -2,56 +2,52 @@
 
 :root {
   font-family: 'Manrope Variable', Inter, system-ui, sans-serif;
-  color: #f5f7ff;
-  background: #040519;
+  color: #f6f7fb;
+  background: #050611;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
-  --bg: #040519;
-  --bg-secondary: #080b36;
-  --surface: #0b0e45;
-  --surface-elevated: #111762;
-  --accent: #536ff4;
-  --accent-strong: #2841bd;
-  --accent-soft: #8ba0ff;
-  --text: #f5f7ff;
-  --text-secondary: #a9b3d3;
-  --border: rgba(119, 140, 244, 0.22);
-  --border-strong: rgba(119, 140, 244, 0.48);
-  --glow: rgba(54, 80, 222, 0.2);
-  --display: clamp(3.25rem, 8vw, 7.8rem);
-  --h1: clamp(2.8rem, 6vw, 6.4rem);
-  --h2: clamp(2.15rem, 4vw, 4.5rem);
-  --h3: clamp(1.15rem, 1.7vw, 1.55rem);
-  --body: clamp(1rem, 1.1vw, 1.15rem);
-  --small: 0.88rem;
-  --container: min(1320px, calc(100vw - 48px));
+  --ink: #050611;
+  --ink-soft: #0a0d20;
+  --paper: #f0f1f4;
+  --paper-muted: #b8bcc9;
+  --blue: #2e4cff;
+  --blue-bright: #6980ff;
+  --line-dark: rgba(220, 225, 255, 0.17);
+  --line-light: rgba(9, 13, 31, 0.17);
+  --ease: cubic-bezier(.2, .78, .2, 1);
+  --container: min(1440px, calc(100vw - 64px));
 }
 
 * { box-sizing: border-box; }
-html { scroll-behavior: smooth; background: var(--bg); }
-body { margin: 0; min-width: 320px; min-height: 100vh; background: var(--bg); }
+html { scroll-behavior: smooth; background: var(--ink); }
+body { margin: 0; min-width: 320px; min-height: 100vh; overflow-x: hidden; background: var(--ink); }
+body[data-menu-open='true'] { overflow: hidden; }
 button, input, textarea { font: inherit; }
 button, a { -webkit-tap-highlight-color: transparent; }
 a { color: inherit; }
 img { max-width: 100%; display: block; }
-::selection { background: var(--accent); color: #fff; }
+::selection { color: white; background: var(--blue); }
 
 .skip-link {
   position: fixed;
-  z-index: 200;
+  z-index: 500;
   left: 16px;
   top: 12px;
   padding: 10px 14px;
   color: #fff;
-  background: var(--accent-strong);
-  transform: translateY(-160%);
+  background: var(--blue);
+  transform: translateY(-170%);
 }
 .skip-link:focus { transform: translateY(0); }
+:focus-visible { outline: 2px solid var(--blue-bright); outline-offset: 4px; }
 
-:focus-visible {
-  outline: 2px solid var(--accent-soft);
-  outline-offset: 4px;
+@media (hover: hover) and (pointer: fine) {
+  body, a, button { cursor: none; }
+}
+
+@media (max-width: 760px) {
+  :root { --container: calc(100vw - 28px); }
 }
 
 @media (prefers-reduced-motion: reduce) {

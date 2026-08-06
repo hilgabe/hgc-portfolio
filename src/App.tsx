@@ -1,19 +1,22 @@
-import { useEffect } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import './App.css'
 import { Contact } from './components/Contact'
+import { CustomCursor } from './components/CustomCursor'
 import { Header } from './components/Header'
 import { Hero } from './components/Hero'
+import { Preloader } from './components/Preloader'
 import { Projects } from './components/Projects'
 import { Services } from './components/Services'
-import { ScrollProgress } from './components/ScrollProgress'
 import { experience, process, skillGroups } from './data/portfolio'
 
 function App() {
+  const [ready, setReady] = useState(false)
+  const finishLoading = useCallback(() => setReady(true), [])
+
   useEffect(() => {
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
     const elements = document.querySelectorAll<HTMLElement>('[data-reveal]')
-
-    if (reducedMotion) {
+    if (reducedMotion || !('IntersectionObserver' in window)) {
       elements.forEach((element) => element.dataset.visible = 'true')
       return
     }
@@ -24,42 +27,61 @@ function App() {
         ;(entry.target as HTMLElement).dataset.visible = 'true'
         observer.unobserve(entry.target)
       }),
-      { threshold: 0.12, rootMargin: '0px 0px -8% 0px' },
+      { threshold: 0.1, rootMargin: '0px 0px -7% 0px' },
     )
-
     elements.forEach((element) => observer.observe(element))
     return () => observer.disconnect()
   }, [])
 
-  return (
-    <div className="site-shell">
-      <ScrollProgress />
-      <Header />
-      <main>
-        <Hero />
+  useEffect(() => {
+    if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return
+    const magnetic = document.querySelectorAll<HTMLElement>('[data-magnetic]')
 
-        <section className="section about" id="sobre" aria-labelledby="about-title">
-          <div className="section-index" aria-hidden="true">01 / SOBRE</div>
-          <div className="about__grid">
-            <div data-reveal>
-              <p className="eyebrow">Tecnologia com contexto</p>
-              <h2 id="about-title">Antes do código, vem o entendimento do problema.</h2>
-            </div>
-            <div className="about__content" data-reveal>
-              <p className="about__lead">
-                Sou Hilson Gabriel Carvalho, graduando em Sistemas de Informação e profissional de tecnologia com
-                experiência em suporte, operação e soluções empresariais.
-              </p>
-              <p>
-                Trabalho próximo de processos comerciais e operacionais. Isso me ajuda a enxergar onde a informação
-                se perde, onde a equipe repete tarefas e onde uma interface bem construída pode tornar o trabalho mais
-                simples, rastreável e confiável.
-              </p>
-              <div className="about__facts" aria-label="Resumo profissional">
-                <span><strong>Base</strong> São Luís, MA</span>
-                <span><strong>Formação</strong> Sistemas de Informação</span>
-                <span><strong>Atuação</strong> Web, sistemas e integrações</span>
+    const cleanups = [...magnetic].map((element) => {
+      const move = (event: PointerEvent) => {
+        const rect = element.getBoundingClientRect()
+        const x = (event.clientX - rect.left - rect.width / 2) * 0.18
+        const y = (event.clientY - rect.top - rect.height / 2) * 0.18
+        element.style.setProperty('--magnetic-x', `${x}px`)
+        element.style.setProperty('--magnetic-y', `${y}px`)
+      }
+      const reset = () => {
+        element.style.setProperty('--magnetic-x', '0px')
+        element.style.setProperty('--magnetic-y', '0px')
+      }
+      element.addEventListener('pointermove', move)
+      element.addEventListener('pointerleave', reset)
+      return () => {
+        element.removeEventListener('pointermove', move)
+        element.removeEventListener('pointerleave', reset)
+      }
+    })
+
+    return () => cleanups.forEach((cleanup) => cleanup())
+  }, [ready])
+
+  return (
+    <div className={ready ? 'site-shell is-ready' : 'site-shell'}>
+      {!ready && <Preloader onDone={finishLoading} />}
+      <CustomCursor />
+      <Header />
+
+      <main>
+        <Hero ready={ready} />
+
+        <section className="manifesto" id="sobre" aria-labelledby="manifesto-title">
+          <div className="section-kicker" data-reveal><span>01</span><p>SOBRE / COMO EU PENSO</p></div>
+          <div className="manifesto__layout">
+            <h2 id="manifesto-title" data-reveal>
+              Eu não entrego apenas uma tela.<br />Eu entendo o processo, encontro o ruído e transformo isso em uma solução que a equipe consegue <em>usar.</em>
+            </h2>
+            <div className="manifesto__aside" data-reveal>
+              <div className="orbit-seal" aria-hidden="true">
+                <svg viewBox="0 0 120 120"><defs><path id="orbit" d="M60,60 m-43,0 a43,43 0 1,1 86,0 a43,43 0 1,1 -86,0" /></defs><text><textPath href="#orbit">HGC · TECNOLOGIA · PROCESSO · RESULTADO · </textPath></text></svg>
+                <img src="/brand/hgc-mark.png" alt="" />
               </div>
+              <p>Graduando em Sistemas de Informação e profissional de tecnologia com experiência próxima da operação, do suporte e dos processos empresariais.</p>
+              <a href="#experiencia" data-magnetic data-cursor="VER">Conhecer minha trajetória <span>↘</span></a>
             </div>
           </div>
         </section>
@@ -67,53 +89,43 @@ function App() {
         <Services />
         <Projects />
 
-        <section className="section experience" id="experiencia" aria-labelledby="experience-title">
-          <div className="section-index" aria-hidden="true">04 / EXPERIÊNCIA</div>
-          <div className="section-heading" data-reveal>
-            <p className="eyebrow">Prática e repertório</p>
-            <h2 id="experience-title">Tecnologia vista da operação, não apenas da tela.</h2>
+        <section className="experience-v2" id="experiencia" aria-labelledby="experience-title">
+          <div className="section-kicker" data-reveal><span>04</span><p>TRAJETÓRIA / EXPERIÊNCIA</p></div>
+          <div className="experience-v2__heading" data-reveal>
+            <h2 id="experience-title">Tecnologia vista da<br /><em>operação real.</em></h2>
+            <p>Meu repertório combina desenvolvimento, suporte e leitura de processos. É essa proximidade com o dia a dia que orienta as soluções.</p>
           </div>
 
-          <div className="experience__layout">
-            <ol className="timeline" aria-label="Experiência profissional">
-              {experience.map((item, index) => (
-                <li key={item.organization} data-reveal>
-                  <span className="timeline__marker">{String(index + 1).padStart(2, '0')}</span>
-                  <div>
-                    <p className="timeline__meta">{item.period}</p>
-                    <h3>{item.role}</h3>
-                    <p className="timeline__org">{item.organization}</p>
-                    <p>{item.description}</p>
-                  </div>
-                </li>
-              ))}
-            </ol>
+          <ol className="experience-list">
+            {experience.map((item, index) => (
+              <li key={item.organization} data-reveal>
+                <span>0{index + 1}</span>
+                <div><p>{item.period}</p><h3>{item.role}</h3></div>
+                <div><strong>{item.organization}</strong><p>{item.description}</p></div>
+              </li>
+            ))}
+          </ol>
 
-            <div className="skills" data-reveal>
-              {skillGroups.map((group) => (
-                <div className="skills__group" key={group.title}>
-                  <h3>{group.title}</h3>
-                  <div className="skills__list">
-                    {group.items.map((item) => <span key={item}>{item}</span>)}
-                  </div>
-                </div>
+          <div className="technology-ribbon" aria-label="Tecnologias e competências">
+            <div>
+              {[...skillGroups.flatMap((group) => group.items), ...skillGroups.flatMap((group) => group.items)].map((item, index) => (
+                <span key={`${item}-${index}`}>{item}<i>·</i></span>
               ))}
             </div>
           </div>
         </section>
 
-        <section className="section process" id="processo" aria-labelledby="process-title">
-          <div className="section-index" aria-hidden="true">05 / PROCESSO</div>
-          <div className="section-heading" data-reveal>
-            <p className="eyebrow">Como o trabalho acontece</p>
-            <h2 id="process-title">Do problema observado à solução validada.</h2>
+        <section className="process-v2" id="processo" aria-labelledby="process-title">
+          <div className="section-kicker section-kicker--light" data-reveal><span>05</span><p>PROCESSO / DO PROBLEMA À ENTREGA</p></div>
+          <div className="process-v2__heading" data-reveal>
+            <h2 id="process-title">Clareza antes<br />da <em>complexidade.</em></h2>
+            <p>Um caminho visível, com decisões explicadas e validação ao longo do projeto.</p>
           </div>
-          <ol className="process__grid">
+          <ol className="process-track">
             {process.map((step, index) => (
               <li key={step.title} data-reveal>
-                <span>{String(index + 1).padStart(2, '0')}</span>
-                <h3>{step.title}</h3>
-                <p>{step.description}</p>
+                <span>0{index + 1}</span><i aria-hidden="true" />
+                <h3>{step.title}</h3><p>{step.description}</p>
               </li>
             ))}
           </ol>
@@ -122,10 +134,11 @@ function App() {
         <Contact />
       </main>
 
-      <footer className="footer">
-        <img src="/brand/hgc-mark.png" alt="" aria-hidden="true" />
-        <p>HGC — tecnologia aplicada a problemas reais.</p>
-        <p>© {new Date().getFullYear()} Hilson Gabriel Carvalho</p>
+      <footer className="footer-v2">
+        <a href="#inicio" className="footer-v2__brand" data-cursor="TOPO"><img src="/brand/hgc-mark.png" alt="" /><span>HGC</span></a>
+        <p>TECNOLOGIA APLICADA A PROBLEMAS REAIS.</p>
+        <div><a href="https://github.com/hilgabe" target="_blank" rel="noreferrer">GitHub ↗</a><a href="https://www.linkedin.com/in/hgcba/" target="_blank" rel="noreferrer">LinkedIn ↗</a></div>
+        <span>© {new Date().getFullYear()} HILSON GABRIEL CARVALHO</span>
       </footer>
     </div>
   )

@@ -1,35 +1,43 @@
+import { useState } from 'react'
 import { services } from '../data/portfolio'
 
 export function Services() {
+  const [open, setOpen] = useState(0)
+
   return (
-    <section className="section services" id="servicos" aria-labelledby="services-title">
-      <div className="section-index" aria-hidden="true">02 / SERVIÇOS</div>
-      <div className="section-heading section-heading--split" data-reveal>
-        <div>
-          <p className="eyebrow">O que posso construir</p>
-          <h2 id="services-title">Tecnologia útil, com escopo honesto.</h2>
-        </div>
-        <p>
-          Cada serviço parte de uma dor observável. Integrações, automações e assistentes são definidos conforme o
-          canal, a infraestrutura e os custos reais de cada projeto.
-        </p>
+    <section className="services-v2" id="servicos" aria-labelledby="services-title">
+      <div className="section-kicker" data-reveal><span>02</span><p>SERVIÇOS / O QUE POSSO CONSTRUIR</p></div>
+      <div className="services-v2__heading" data-reveal>
+        <h2 id="services-title">Tecnologia útil.<br /><em>Escopo honesto.</em></h2>
+        <p>Não começo pela ferramenta. Primeiro entendo a dor, o processo e o que precisa melhorar de verdade.</p>
       </div>
 
-      <div className="services__grid">
-        {services.map((service) => (
-          <article className={service.featured ? 'service-card service-card--featured' : 'service-card'} key={service.title} data-reveal>
-            <div className="service-card__top">
-              <span>{service.number}</span>
-              <span className="service-card__signal" aria-hidden="true" />
-            </div>
-            <h3>{service.title}</h3>
-            <div className="service-card__copy">
-              <p><strong>Problema</strong>{service.problem}</p>
-              <p><strong>Entrega</strong>{service.delivery}</p>
-            </div>
-            <div className="tag-list">{service.tags.map((tag) => <span key={tag}>{tag}</span>)}</div>
-          </article>
-        ))}
+      <div className="service-accordion" data-reveal>
+        {services.map((service, index) => {
+          const active = open === index
+          return (
+            <article className={active ? 'service-row is-open' : 'service-row'} key={service.number}>
+              <button
+                type="button"
+                aria-expanded={active}
+                onClick={() => setOpen(active ? -1 : index)}
+                onMouseEnter={() => setOpen(index)}
+                data-cursor={active ? 'LER' : 'ABRIR'}
+              >
+                <span>{service.number}</span>
+                <h3>{service.title}</h3>
+                <i aria-hidden="true">{active ? '−' : '+'}</i>
+              </button>
+              <div className="service-row__reveal">
+                <div>
+                  <p><b>O problema</b>{service.problem}</p>
+                  <p><b>O que entrego</b>{service.delivery}</p>
+                  <ul>{service.tags.map((tag) => <li key={tag}>{tag}</li>)}</ul>
+                </div>
+              </div>
+            </article>
+          )
+        })}
       </div>
     </section>
   )

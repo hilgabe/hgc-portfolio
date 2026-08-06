@@ -7,9 +7,9 @@ export function Services() {
   return (
     <section className="services-v2" id="servicos" aria-labelledby="services-title">
       <div className="section-kicker" data-reveal><span>02</span><p>SERVIÇOS / O QUE POSSO CONSTRUIR</p></div>
-      <div className="services-v2__heading" data-reveal>
+      <div className="section-heading" data-reveal>
         <h2 id="services-title">Tecnologia útil.<br /><em>Escopo honesto.</em></h2>
-        <p>Não começo pela ferramenta. Primeiro entendo a dor, o processo e o que precisa melhorar de verdade.</p>
+        <p>Todo projeto começa com um diagnóstico do processo. A ferramenta entra depois, quando já está claro o que precisa melhorar.</p>
       </div>
 
       <div className="service-accordion" data-reveal>
@@ -18,17 +18,23 @@ export function Services() {
           return (
             <article className={active ? 'service-row is-open' : 'service-row'} key={service.number}>
               <button
+                id={`service-button-${index}`}
                 type="button"
                 aria-expanded={active}
+                aria-controls={`service-panel-${index}`}
                 onClick={() => setOpen(active ? -1 : index)}
-                onMouseEnter={() => setOpen(index)}
-                data-cursor={active ? 'LER' : 'ABRIR'}
               >
                 <span>{service.number}</span>
                 <h3>{service.title}</h3>
                 <i aria-hidden="true">{active ? '−' : '+'}</i>
               </button>
-              <div className="service-row__reveal">
+              <div
+                className="service-row__reveal"
+                id={`service-panel-${index}`}
+                role="region"
+                aria-labelledby={`service-button-${index}`}
+                aria-hidden={!active}
+              >
                 <div>
                   <p><b>O problema</b>{service.problem}</p>
                   <p><b>O que entrego</b>{service.delivery}</p>

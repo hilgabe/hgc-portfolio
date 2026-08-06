@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import { projects } from '../data/portfolio'
 
 function ProjectVisual({ slug }: { slug: string }) {
@@ -44,59 +43,33 @@ function ProjectVisual({ slug }: { slug: string }) {
 }
 
 export function Projects() {
-  const [active, setActive] = useState(0)
-  const [expanded, setExpanded] = useState<string | null>(projects[0].slug)
-  const project = projects[active]
-
   return (
     <section className="projects-v2" id="projetos" aria-labelledby="projects-title">
       <div className="section-kicker section-kicker--light" data-reveal><span>03</span><p>TRABALHO SELECIONADO / CASOS REAIS</p></div>
       <div className="projects-v2__heading" data-reveal>
-        <h2 id="projects-title">Trabalho que começa<br />com um <em>problema.</em></h2>
-        <p>Passe pelos projetos para explorar. Clique para entender o contexto, a solução e a minha atuação.</p>
+        <h2 id="projects-title">Problemas reais.<br /><em>Soluções aplicáveis.</em></h2>
+        <p>Projetos construídos a partir do contexto da operação, com decisões claras e tecnologia adequada ao momento de cada negócio.</p>
       </div>
 
-      <div className="project-showcase">
-        <div className="project-list" data-reveal>
-          {projects.map((item, index) => {
-            const isExpanded = expanded === item.slug
-            return (
-              <article className={active === index ? 'project-row is-active' : 'project-row'} key={item.slug}>
-                <button
-                  type="button"
-                  onMouseEnter={() => setActive(index)}
-                  onFocus={() => setActive(index)}
-                  onClick={() => {
-                    setActive(index)
-                    setExpanded(isExpanded ? null : item.slug)
-                  }}
-                  aria-expanded={isExpanded}
-                  data-cursor="ABRIR"
-                >
-                  <span>0{index + 1}</span>
-                  <div><h3>{item.title}</h3><p>{item.label}</p></div>
-                  <i aria-hidden="true">↗</i>
-                </button>
-                <div className={isExpanded ? 'project-row__details is-open' : 'project-row__details'}>
-                  <div>
-                    <p><b>Contexto</b>{item.context}</p>
-                    <p><b>Solução</b>{item.solution}</p>
-                    <p><b>Atuação</b>{item.role}</p>
-                    <ul>{item.technologies.map((tech) => <li key={tech}>{tech}</li>)}</ul>
-                  </div>
-                </div>
-              </article>
-            )
-          })}
-        </div>
-
-        <div className="project-stage" data-reveal aria-live="polite">
-          <div className="project-stage__frame" key={project.slug}>
-            <div className="project-stage__top"><span>{project.label}</span><span>0{active + 1} / 03</span></div>
-            <ProjectVisual slug={project.slug} />
-            <div className="project-stage__status"><i />{project.status}</div>
-          </div>
-        </div>
+      <div className="project-cards">
+        {projects.map((project, index) => (
+          <article className="project-card" key={project.slug} data-reveal>
+            <div className="project-card__visual">
+              <div className="project-card__visual-top"><span>0{index + 1}</span><span>{project.label}</span></div>
+              <ProjectVisual slug={project.slug} />
+            </div>
+            <div className="project-card__content">
+              <div className="project-card__status"><i />{project.status}</div>
+              <h3>{project.title}</h3>
+              <dl>
+                <div><dt>Contexto</dt><dd>{project.context}</dd></div>
+                <div><dt>Solução</dt><dd>{project.solution}</dd></div>
+                <div><dt>Minha atuação</dt><dd>{project.role}</dd></div>
+              </dl>
+              <ul>{project.technologies.map((technology) => <li key={technology}>{technology}</li>)}</ul>
+            </div>
+          </article>
+        ))}
       </div>
     </section>
   )

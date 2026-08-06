@@ -1,92 +1,87 @@
 import { useEffect, useRef } from 'react'
 
 export function Hero({ ready }: { ready: boolean }) {
-  const heroRef = useRef<HTMLElement>(null)
   const mediaRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    const hero = heroRef.current
     const media = mediaRef.current
-    if (!hero || !media || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+    if (!media || !window.matchMedia('(hover: hover) and (pointer: fine)').matches) return
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
 
-    let frame = 0
-    const updateScroll = () => {
-      if (frame) return
-      frame = window.requestAnimationFrame(() => {
-        const progress = Math.min(window.scrollY / Math.max(hero.offsetHeight, 1), 1)
-        media.style.setProperty('--hero-scroll', `${progress * 72}px`)
-        hero.style.setProperty('--title-shift', `${progress * -12}vw`)
-        frame = 0
-      })
+    const move = (event: PointerEvent) => {
+      const rect = media.getBoundingClientRect()
+      const x = ((event.clientX - rect.left) / rect.width - 0.5) * 10
+      const y = ((event.clientY - rect.top) / rect.height - 0.5) * 8
+      media.style.setProperty('--portrait-x', `${x}px`)
+      media.style.setProperty('--portrait-y', `${y}px`)
+    }
+    const reset = () => {
+      media.style.setProperty('--portrait-x', '0px')
+      media.style.setProperty('--portrait-y', '0px')
     }
 
-    const updatePointer = (event: PointerEvent) => {
-      const rect = hero.getBoundingClientRect()
-      const x = ((event.clientX - rect.left) / rect.width - 0.5) * 18
-      const y = ((event.clientY - rect.top) / rect.height - 0.5) * 12
-      media.style.setProperty('--hero-x', `${x}px`)
-      media.style.setProperty('--hero-y', `${y}px`)
-    }
-
-    const resetPointer = () => {
-      media.style.setProperty('--hero-x', '0px')
-      media.style.setProperty('--hero-y', '0px')
-    }
-
-    window.addEventListener('scroll', updateScroll, { passive: true })
-    hero.addEventListener('pointermove', updatePointer)
-    hero.addEventListener('pointerleave', resetPointer)
-    updateScroll()
-
+    media.addEventListener('pointermove', move)
+    media.addEventListener('pointerleave', reset)
     return () => {
-      window.removeEventListener('scroll', updateScroll)
-      hero.removeEventListener('pointermove', updatePointer)
-      hero.removeEventListener('pointerleave', resetPointer)
-      if (frame) window.cancelAnimationFrame(frame)
+      media.removeEventListener('pointermove', move)
+      media.removeEventListener('pointerleave', reset)
     }
   }, [])
 
   return (
-    <section className={ready ? 'hero-v2 is-ready' : 'hero-v2'} id="inicio" aria-labelledby="hero-title" ref={heroRef}>
+    <section className={ready ? 'hero-v2 is-ready' : 'hero-v2'} id="inicio" aria-labelledby="hero-title">
       <div className="hero-v2__mesh" aria-hidden="true" />
 
-      <div className="hero-v2__location hero-enter">
-        <span>LOCALIZADO EM</span>
-        <strong>SÃO LUÍS<br />MARANHÃO</strong>
-        <i aria-hidden="true"><img src="/brand/hgc-mark.png" alt="" /></i>
-      </div>
+      <div className="hero-v2__grid">
+        <div className="hero-v2__content hero-enter">
+          <p className="hero-v2__status"><i aria-hidden="true" /> DISPONÍVEL PARA NOVOS PROJETOS</p>
+          <p className="hero-v2__eyebrow">HILSON GABRIEL CARVALHO · DESENVOLVEDOR</p>
+          <h1 id="hero-title">Soluções digitais para processos que precisam <em>funcionar melhor.</em></h1>
+          <p className="hero-v2__summary">
+            Desenvolvo sites, sistemas internos e integrações sob medida — com clareza de escopo, tecnologia viável e foco no que a empresa realmente precisa resolver.
+          </p>
 
-      <div className="hero-v2__role hero-enter">
-        <span aria-hidden="true">↘</span>
-        <p>Desenvolvedor de<br /><strong>soluções digitais</strong></p>
-      </div>
+          <div className="hero-v2__actions">
+            <a className="button-link button-link--primary" href="#projetos" data-magnetic data-cursor="VER">
+              Conhecer projetos <span aria-hidden="true">↘</span>
+            </a>
+            <a className="button-link button-link--ghost" href="#contato" data-magnetic>
+              Falar sobre um projeto <span aria-hidden="true">↗</span>
+            </a>
+          </div>
 
-      <div className="hero-v2__media hero-enter" ref={mediaRef}>
-        <div className="hero-v2__halo" />
-        <img src="/brand/hilson-gabriel.jpg" alt="Hilson Gabriel Carvalho" />
-        <div className="hero-v2__media-label"><span>HGC / 2026</span><span>WEB · SISTEMAS · INTEGRAÇÕES</span></div>
-      </div>
+          <div className="hero-v2__meta" aria-label="Áreas de atuação">
+            <span><b>01</b> Produtos web</span>
+            <span><b>02</b> Sistemas internos</span>
+            <span><b>03</b> Integrações</span>
+          </div>
+        </div>
 
-      <div className="hero-v2__marquee hero-enter" aria-hidden="true">
-        <div>
-          <span>HILSON GABRIEL —</span><span>HILSON GABRIEL —</span><span>HILSON GABRIEL —</span>
+        <div className="hero-v2__portrait-wrap hero-enter">
+          <div className="hero-v2__portrait" ref={mediaRef}>
+            <div className="hero-v2__halo" aria-hidden="true" />
+            <img src="/brand/hilson-gabriel.jpg" alt="Hilson Gabriel Carvalho" />
+            <div className="hero-v2__portrait-footer">
+              <span>HGC / 2026</span>
+              <span>SÃO LUÍS · MA</span>
+            </div>
+          </div>
+          <div className="hero-v2__badge" aria-hidden="true">
+            <img src="/brand/hgc-mark.png" alt="" />
+            <span>TECNOLOGIA<br />COM PROPÓSITO</span>
+          </div>
+          <div className="hero-v2__signal" aria-hidden="true">
+            <i /><span>SISTEMAS<br />EM MOVIMENTO</span>
+          </div>
         </div>
       </div>
 
-      <div className="hero-v2__intro hero-enter">
-        <p className="eyebrow">TECNOLOGIA APLICADA A PROBLEMAS REAIS</p>
-        <h1 id="hero-title">Eu transformo processos confusos em experiências digitais <em>claras.</em></h1>
+      <div className="hero-v2__ticker" aria-label="Tecnologias e entregas">
         <div>
-          <p>Sites, sistemas internos e integrações construídos a partir do que a empresa realmente precisa resolver.</p>
-          <a className="round-cta" href="#projetos" data-magnetic data-cursor="VER">
-            <span>Explorar<br />trabalho</span><i aria-hidden="true">↘</i>
-          </a>
+          <span>REACT</span><i>·</i><span>TYPESCRIPT</span><i>·</i><span>FIREBASE</span><i>·</i><span>VERCEL</span><i>·</i><span>APIS</span><i>·</i><span>DASHBOARDS</span><i>·</i>
+          <span>REACT</span><i>·</i><span>TYPESCRIPT</span><i>·</i><span>FIREBASE</span><i>·</i><span>VERCEL</span><i>·</i><span>APIS</span><i>·</i><span>DASHBOARDS</span><i>·</i>
         </div>
       </div>
-
-      <a className="hero-v2__scroll" href="#sobre" aria-label="Rolar para conhecer o portfólio" data-cursor="ROLAR">
-        <span>SCROLL</span><i aria-hidden="true" />
-      </a>
     </section>
   )
 }

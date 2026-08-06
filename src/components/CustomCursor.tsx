@@ -2,49 +2,30 @@ import { useEffect, useRef } from 'react'
 
 export function CustomCursor() {
   const cursorRef = useRef<HTMLDivElement>(null)
-  const labelRef = useRef<HTMLSpanElement>(null)
 
   useEffect(() => {
     if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return
-
     const cursor = cursorRef.current
-    const label = labelRef.current
-    if (!cursor || !label) return
+    if (!cursor) return
 
-    let targetX = window.innerWidth / 2
-    let targetY = window.innerHeight / 2
-    let currentX = targetX
-    let currentY = targetY
-    let frame = 0
-
-    const render = () => {
-      currentX += (targetX - currentX) * 0.18
-      currentY += (targetY - currentY) * 0.18
-      cursor.style.transform = `translate3d(${currentX}px, ${currentY}px, 0)`
-      frame = window.requestAnimationFrame(render)
-    }
+    let x = window.innerWidth / 2
+    let y = window.innerHeight / 2
 
     const move = (event: PointerEvent) => {
-      targetX = event.clientX
-      targetY = event.clientY
+      x = event.clientX
+      y = event.clientY
+      cursor.style.transform = `translate3d(${x}px, ${y}px, 0)`
       cursor.dataset.visible = 'true'
-      const interactive = (event.target as HTMLElement).closest<HTMLElement>('[data-cursor]')
-      const value = interactive?.dataset.cursor ?? ''
-      label.textContent = value
-      cursor.dataset.active = value ? 'true' : 'false'
+      cursor.dataset.active = (event.target as HTMLElement).closest('a, button') ? 'true' : 'false'
     }
-
     const hide = () => { cursor.dataset.visible = 'false' }
     window.addEventListener('pointermove', move)
     document.addEventListener('mouseleave', hide)
-    frame = window.requestAnimationFrame(render)
-
     return () => {
       window.removeEventListener('pointermove', move)
       document.removeEventListener('mouseleave', hide)
-      window.cancelAnimationFrame(frame)
     }
   }, [])
 
-  return <div className="custom-cursor" ref={cursorRef}><span ref={labelRef} /></div>
+  return <div className="custom-cursor" ref={cursorRef} />
 }

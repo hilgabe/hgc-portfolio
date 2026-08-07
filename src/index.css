@@ -1,4 +1,6 @@
 @import '@fontsource-variable/manrope';
+@import '@fontsource/barlow-condensed/500.css';
+@import '@fontsource/barlow-condensed/600.css';
 
 :root {
   font-family: 'Manrope Variable', Inter, system-ui, sans-serif;
@@ -43,7 +45,7 @@ img { max-width: 100%; display: block; }
 :focus-visible { outline: 2px solid var(--blue-bright); outline-offset: 4px; }
 
 @media (hover: hover) and (pointer: fine) {
-  body, a, button { cursor: none; }
+  a, button, [role='button'] { cursor: pointer; }
 }
 
 @media (max-width: 760px) {

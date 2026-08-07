@@ -1,11 +1,13 @@
 import { useState } from 'react'
 import { services } from '../data/portfolio'
+import { SectionAtmosphere } from './SectionAtmosphere'
 
 export function Services() {
   const [open, setOpen] = useState(0)
 
   return (
     <section className="services-v2" id="servicos" aria-labelledby="services-title">
+      <SectionAtmosphere variant="services" />
       <div className="section-kicker" data-reveal><span>02</span><p>SERVIÇOS / O QUE POSSO CONSTRUIR</p></div>
       <div className="section-heading" data-reveal>
         <h2 id="services-title">Tecnologia útil.<br /><em>Escopo honesto.</em></h2>

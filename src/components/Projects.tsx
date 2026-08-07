@@ -1,8 +1,10 @@
 import { projects } from '../data/portfolio'
+import { SectionAtmosphere } from './SectionAtmosphere'
 
 export function Projects() {
   return (
     <section className="projects-v3" id="projetos" aria-labelledby="projects-title">
+      <SectionAtmosphere variant="projects" />
       <div className="section-kicker section-kicker--light" data-reveal><span>01</span><p>PROJETOS SELECIONADOS / ABRA E CONFIRA</p></div>
       <div className="section-heading section-heading--dark" data-reveal>
         <h2 id="projects-title">Trabalho que você pode <em>investigar.</em></h2>

@@ -69,6 +69,40 @@ export function Hero() {
   return (
     <section className="hero-v3" id="inicio" aria-labelledby="hero-title">
       <div className="hero-v3__mesh" aria-hidden="true" />
+      <div className="hero-code-bg" aria-hidden="true">
+        <div className="hero-code-bg__editor hero-code-bg__editor--primary">
+          <div className="hero-code-bg__bar">
+            <span className="hero-code-bg__dots"><i /><i /><i /></span>
+            <span>Hero.tsx</span>
+          </div>
+          <pre><code>
+            <span className="hero-code-bg__line" data-line="01"><span className="code-token--keyword">const</span> solution = {'{'}</span>
+            <span className="hero-code-bg__line" data-line="02">  <span className="code-token--property">web</span>: <span className="code-token--value">true</span>,</span>
+            <span className="hero-code-bg__line" data-line="03">  <span className="code-token--property">systems</span>: <span className="code-token--function">scalable</span>,</span>
+            <span className="hero-code-bg__line" data-line="04">  <span className="code-token--property">integrations</span>: <span className="code-token--string">'connected'</span>,</span>
+            <span className="hero-code-bg__line" data-line="05">{'}'}</span>
+            <span className="hero-code-bg__line" data-line="06"> </span>
+            <span className="hero-code-bg__line" data-line="07"><span className="code-token--keyword">export</span> <span className="code-token--keyword">default</span> <span className="code-token--function">build</span>(solution)</span>
+          </code></pre>
+        </div>
+
+        <div className="hero-code-bg__editor hero-code-bg__editor--secondary">
+          <div className="hero-code-bg__bar">
+            <span className="hero-code-bg__dots"><i /><i /><i /></span>
+            <span>process.ts</span>
+          </div>
+          <pre><code>
+            <span className="hero-code-bg__line" data-line="12"><span className="code-token--keyword">async function</span> <span className="code-token--function">improve</span>(process) {'{'}</span>
+            <span className="hero-code-bg__line" data-line="13">  <span className="code-token--keyword">const</span> flow = <span className="code-token--keyword">await</span> <span className="code-token--function">map</span>(process)</span>
+            <span className="hero-code-bg__line" data-line="14">  <span className="code-token--keyword">return</span> <span className="code-token--function">create</span>({'{'}</span>
+            <span className="hero-code-bg__line" data-line="15">    <span className="code-token--property">experience</span>: <span className="code-token--string">'clear'</span>,</span>
+            <span className="hero-code-bg__line" data-line="16">    <span className="code-token--property">operation</span>: <span className="code-token--string">'connected'</span>,</span>
+            <span className="hero-code-bg__line" data-line="17">    <span className="code-token--property">result</span>: <span className="code-token--string">'measurable'</span></span>
+            <span className="hero-code-bg__line" data-line="18">  {'}'})</span>
+            <span className="hero-code-bg__line" data-line="19">{'}'}</span>
+          </code></pre>
+        </div>
+      </div>
 
       <div className="hero-v3__grid">
         <div className="hero-v3__content">

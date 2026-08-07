@@ -6,6 +6,7 @@ import { CustomCursor } from './components/CustomCursor'
 import { Header } from './components/Header'
 import { Hero } from './components/Hero'
 import { Projects } from './components/Projects'
+import { SectionAtmosphere } from './components/SectionAtmosphere'
 import { Services } from './components/Services'
 import { experience, process, projects, skillGroups } from './data/portfolio'
 
@@ -35,6 +36,7 @@ function HomePage() {
       <Services />
 
       <section className="experience-v3" id="sobre" aria-labelledby="experience-title">
+        <SectionAtmosphere variant="about" />
         <div className="section-kicker" data-reveal><span>03</span><p>SOBRE / EXPERIÊNCIA E REPERTÓRIO</p></div>
         <div className="section-heading" data-reveal>
           <h2 id="experience-title">Tecnologia vista da <em>operação real.</em></h2>
@@ -62,6 +64,7 @@ function HomePage() {
       </section>
 
       <section className="process-v3" id="processo" aria-labelledby="process-title">
+        <SectionAtmosphere variant="process" />
         <div className="section-kicker section-kicker--light" data-reveal><span>04</span><p>COMO TRABALHO / ENTREGAS VISÍVEIS</p></div>
         <div className="section-heading section-heading--dark" data-reveal>
           <h2 id="process-title">Quatro etapas.<br /><em>Nenhuma caixa-preta.</em></h2>

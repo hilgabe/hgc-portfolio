@@ -26,10 +26,9 @@ function HomePage() {
       <Hero />
 
       <section className="proof-strip" aria-label="Informações profissionais verificáveis">
-        <div><span>ATUAÇÃO</span><strong>Web, sistemas e integrações</strong></div>
-        <div><span>EXPERIÊNCIA</span><strong>Suporte de TI e operação</strong></div>
+        <div><span>ATUAÇÃO</span><strong>Web, sistemas, integrações e automações</strong></div>
+        <div><span>EXPERIÊNCIA</span><strong>TI, desenvolvimento e IA aplicada</strong></div>
         <div><span>FORMAÇÃO</span><strong>Sistemas de Informação · em curso</strong></div>
-        <div><span>LOCALIZAÇÃO</span><strong>São Luís · Maranhão</strong></div>
       </section>
 
       <Projects />
@@ -39,7 +38,7 @@ function HomePage() {
         <div className="section-kicker" data-reveal><span>03</span><p>SOBRE / EXPERIÊNCIA E REPERTÓRIO</p></div>
         <div className="section-heading" data-reveal>
           <h2 id="experience-title">Tecnologia vista da <em>operação real.</em></h2>
-          <p>Meu repertório combina desenvolvimento, suporte e proximidade com quem usa a solução no dia a dia.</p>
+          <p>Meu repertório combina desenvolvimento, IA aplicada, suporte e proximidade com quem usa a solução no dia a dia.</p>
         </div>
 
         <ol className="experience-list-v3">

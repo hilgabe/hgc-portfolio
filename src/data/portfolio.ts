@@ -20,11 +20,11 @@ export type Project = {
   role: string
   outcomes: string[]
   nextSteps: string[]
-  technologies: string[]
   status: string
   image: string
-  mobileImage: string
-  liveUrl: string
+  mobileImage?: string
+  liveUrl?: string
+  availabilityLabel?: string
   repositoryUrl?: string
   repositoryLabel?: string
 }
@@ -92,7 +92,6 @@ export const projects: Project[] = [
       'Acompanhar os caminhos mais utilizados pelos visitantes.',
       'Aprimorar conteúdo e conversão com base em dúvidas reais do atendimento.',
     ],
-    technologies: ['React', 'TypeScript', 'Vite', 'Vercel'],
     status: 'Publicado',
     image: '/projects/invest-corretora.webp',
     mobileImage: '/projects/invest-corretora-mobile.webp',
@@ -129,7 +128,6 @@ export const projects: Project[] = [
       'Ampliar modelos táticos e opções de personalização.',
       'Validar a experiência com usuários em dispositivos móveis.',
     ],
-    technologies: ['React', 'TypeScript', 'Firebase', 'Vercel'],
     status: 'Publicado · em evolução',
     image: '/projects/tatica-fc.webp',
     mobileImage: '/projects/tatica-fc-mobile.webp',
@@ -137,50 +135,82 @@ export const projects: Project[] = [
     repositoryLabel: 'Repositório privado',
   },
   {
-    slug: 'bolao-betel-2026',
-    label: 'Aplicação com regras de negócio',
-    title: 'Bolão Betel 2026',
-    summary: 'Uma aplicação mobile-first com autenticação, palpites, ranking e administração das regras de pontuação da Copa do Mundo.',
-    context: 'O grupo precisava centralizar participantes, palpites e resultados em uma aplicação que calculasse regras diferentes ao longo do torneio.',
-    audience: 'Participantes de um grupo fechado e administradores responsáveis por jogos, resultados e pontuação.',
-    before: 'Palpites, prazos, resultados e classificação exigiriam controle manual e atualização repetida a cada partida.',
+    slug: 'opentask',
+    label: 'Sistema interno de gestão de TI',
+    title: 'OpenTask',
+    summary: 'Workspace e portal para organizar chamados, inventário de equipamentos, vínculos com funcionários e indicadores de SLA em uma única operação.',
+    context: 'A operação de TI precisava reunir solicitações, ativos e responsáveis em uma visão rastreável, com prioridades e tempos de atendimento claros.',
+    audience: 'Equipe de TI e funcionários que abrem e acompanham solicitações.',
+    before: 'Chamados, inventário e metas de atendimento estavam separados em planilhas e controles dispersos, dificultando a leitura da fila e do patrimônio.',
     constraints: [
-      'Liberar palpites conforme data e horário em America/Sao_Paulo.',
-      'Aplicar regras distintas para placar, pênaltis, jogadores e rodadas especiais.',
-      'Separar a experiência do participante das ações administrativas.',
+      'Separar a workspace da equipe técnica do portal utilizado pelos funcionários.',
+      'Relacionar equipamentos, acessórios e responsáveis dentro da mesma jornada.',
+      'Representar prioridades, estados, histórico e SLA sem antecipar uma implantação ainda em desenvolvimento.',
     ],
-    solution: 'PWA com autenticação por nome e senha, dados no Firestore, páginas de jogos e ranking, além de painel para resultados e pontuação.',
+    solution: 'Protótipo funcional com workspace operacional, portal do funcionário, fila de chamados, inventário, vínculos de equipamentos e acompanhamento de indicadores.',
     decisions: [
-      'A autenticação simplifica a entrada sem expor e-mail ao participante.',
-      'Palpites e resultados usam estados persistentes e prazos por partida.',
-      'A pontuação automática mantém exceções documentadas para ajustes administrativos.',
+      'A visão geral concentra fila ativa, atrasos, tempo de primeira resposta e ativos vinculados.',
+      'Cada chamado possui prioridade, estado, histórico e ações coerentes com o andamento do atendimento.',
+      'Inventário, funcionários e vínculos compartilham o mesmo contexto operacional.',
     ],
-    role: 'Modelagem do produto e dos dados, regras de pontuação, desenvolvimento da aplicação, integração com Firebase e publicação.',
+    role: 'Levantamento do processo, modelagem dos fluxos, arquitetura da informação, desenvolvimento do protótipo responsivo e validação das jornadas principais.',
     outcomes: [
-      'Aplicação publicada com acesso autenticado.',
-      'Jogos, palpites, ranking e administração reunidos no mesmo sistema.',
-      'Regras de pontuação implementadas e documentadas no repositório.',
+      'Workspace técnico e portal do funcionário funcionando no protótipo.',
+      'Cadastro e vínculo de funcionários, equipamentos e acessórios.',
+      'Abertura e acompanhamento de chamados com prioridade, status e indicadores de SLA.',
     ],
     nextSteps: [
-      'Endurecer as regras de segurança do Firestore antes de ampliar o público.',
-      'Consolidar testes automatizados para as variações de pontuação.',
+      'Conectar autenticação e persistência aos dados oficiais da operação.',
+      'Validar permissões, regras de negócio e implantação com os usuários responsáveis.',
     ],
-    technologies: ['React', 'TypeScript', 'Firebase', 'PWA'],
-    status: 'Publicado · acesso do grupo',
-    image: '/projects/bolao-betel-2026.webp',
-    mobileImage: '/projects/bolao-betel-2026-mobile.webp',
-    liveUrl: 'https://bolao-betel-2026.vercel.app',
-    repositoryUrl: 'https://github.com/hilgabe/bolao-betel-2026',
-    repositoryLabel: 'Repositório público',
+    status: 'Protótipo funcional · em desenvolvimento',
+    image: '/projects/opentask.png',
+    availabilityLabel: 'Protótipo local · sem link público',
+    repositoryLabel: 'Repositório privado',
+  },
+  {
+    slug: 'vision-all',
+    label: 'Sistema de acompanhamento de O.S.',
+    title: 'Vision All',
+    summary: 'Sistema responsivo para acompanhar ordens de serviço industriais, prioridades, status, prazos e indicadores da operação em tempo real.',
+    context: 'A Elétrica Visão precisava de uma leitura centralizada das ordens de serviço executadas para clientes da indústria.',
+    audience: 'Gestores, produção e equipes responsáveis pelo acompanhamento e pela execução das ordens de serviço.',
+    before: 'O acompanhamento fragmentado dificultava enxergar rapidamente volume, andamento, prioridades, prazos críticos e pontos de retrabalho.',
+    constraints: [
+      'Organizar um volume elevado de ordens de serviço sem perder a leitura rápida da operação.',
+      'Manter a consulta utilizável tanto no computador quanto no celular.',
+      'Diferenciar prioridades, etapas de produção, pendências e prazos críticos.',
+    ],
+    solution: 'Dashboard operacional e consulta de ordens de serviço com indicadores, busca, filtros, alertas e visão de status em tempo real.',
+    decisions: [
+      'Os principais números da operação aparecem em cartões de leitura imediata.',
+      'Busca e filtros permitem localizar ordens por número, cliente ou status.',
+      'Alertas de prazo e distribuição por atividade ajudam a direcionar a atenção da equipe.',
+    ],
+    role: 'Concepção e desenvolvimento do sistema, estruturação das telas, organização dos indicadores e construção da experiência responsiva.',
+    outcomes: [
+      'Dashboard com visão consolidada das ordens e de seus principais estados.',
+      'Consulta operacional com busca, filtros, prioridade, status e acompanhamento de prazo.',
+      'Experiência responsiva preparada para acompanhamento em campo e na gestão.',
+    ],
+    nextSteps: [
+      'Evoluir relatórios e filtros conforme o uso das equipes.',
+      'Aprimorar níveis de acesso e rastreabilidade do histórico das ordens.',
+    ],
+    status: 'Sistema interno',
+    image: '/projects/vision-all-desktop.png',
+    mobileImage: '/projects/vision-all-mobile.jpeg',
+    availabilityLabel: 'Sistema interno · acesso restrito',
+    repositoryLabel: 'Projeto interno',
   },
 ]
 
 export const experience = [
   {
     period: 'Experiência atual',
-    role: 'Atuação em suporte de TI e soluções tecnológicas',
+    role: 'Atuação em TI, desenvolvimento e IA aplicada',
     organization: 'Elétrica Visão',
-    description: 'Suporte a usuários e equipamentos, diagnóstico de ocorrências e participação na organização de soluções ligadas à operação da empresa.',
+    description: 'Suporte à operação, desenvolvimento de sistemas internos e uso de IA generativa para pesquisa, prototipação, documentação e validação de soluções.',
   },
   {
     period: 'Experiência anterior',
@@ -200,6 +230,7 @@ export const skillGroups = [
   { title: 'Desenvolvimento', items: ['React', 'TypeScript', 'JavaScript', 'HTML', 'CSS', 'Vite'] },
   { title: 'Dados e integrações', items: ['Firebase', 'APIs REST', 'Webhooks', 'Formulários', 'Dashboards'] },
   { title: 'Operação e qualidade', items: ['Suporte de TI', 'QA de fluxos', 'Documentação', 'Git', 'Vercel'] },
+  { title: 'IA aplicada', items: ['IA generativa', 'Engenharia de prompts', 'Agentes e fluxos', 'Prototipação assistida', 'Validação humana'] },
 ]
 
 export const process = [

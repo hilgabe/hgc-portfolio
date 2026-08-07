@@ -32,22 +32,26 @@ export function CaseStudy({ project }: { project: Project }) {
         <h1 id="case-title">{project.title}</h1>
         <p>{project.summary}</p>
         <div className="case-hero__actions">
-          <a className="button-link button-link--primary" href={project.liveUrl} target="_blank" rel="noreferrer">Abrir projeto publicado <span aria-hidden="true">↗</span></a>
+          {project.liveUrl
+            ? <a className="button-link button-link--primary" href={project.liveUrl} target="_blank" rel="noreferrer">Abrir projeto publicado <span aria-hidden="true">↗</span></a>
+            : <span className="case-private">{project.availabilityLabel}</span>}
           {project.repositoryUrl
             ? <a className="button-link button-link--ghost" href={project.repositoryUrl} target="_blank" rel="noreferrer">Ver repositório <span aria-hidden="true">↗</span></a>
             : <span className="case-private">{project.repositoryLabel}</span>}
         </div>
       </section>
 
-      <section className="case-media" aria-label={`Capturas do projeto ${project.title}`}>
+      <section className={`case-media${project.mobileImage ? '' : ' case-media--single'}`} aria-label={`Capturas do projeto ${project.title}`}>
         <figure className="case-media__desktop">
           <img src={project.image} alt={`Tela desktop real do projeto ${project.title}`} width="1440" height="900" />
           <figcaption>Captura real · desktop</figcaption>
         </figure>
-        <figure className="case-media__mobile">
-          <img src={project.mobileImage} alt={`Tela mobile real do projeto ${project.title}`} width="390" height="844" loading="lazy" />
-          <figcaption>Captura real · mobile</figcaption>
-        </figure>
+        {project.mobileImage && (
+          <figure className="case-media__mobile">
+            <img src={project.mobileImage} alt={`Tela mobile real do projeto ${project.title}`} width="390" height="844" loading="lazy" />
+            <figcaption>Captura real · mobile</figcaption>
+          </figure>
+        )}
       </section>
 
       <section className="case-section" aria-labelledby="case-context-title">
@@ -82,7 +86,6 @@ export function CaseStudy({ project }: { project: Project }) {
             <div>
               <h3>Minha atuação</h3>
               <p>{project.role}</p>
-              <ul className="tag-list">{project.technologies.map((item) => <li key={item}>{item}</li>)}</ul>
             </div>
             <div>
               <h3>Resultados observáveis</h3>

@@ -14,7 +14,7 @@ export function CustomCursor() {
     const move = (event: PointerEvent) => {
       x = event.clientX
       y = event.clientY
-      cursor.style.transform = `translate3d(${x}px, ${y}px, 0)`
+      cursor.style.transform = `translate3d(${x}px, ${y}px, 0) translate(-50%, -50%)`
       cursor.dataset.visible = 'true'
       cursor.dataset.active = (event.target as HTMLElement).closest('a, button') ? 'true' : 'false'
     }
@@ -27,5 +27,5 @@ export function CustomCursor() {
     }
   }, [])
 
-  return <div className="custom-cursor" ref={cursorRef} />
+  return <div className="custom-cursor" ref={cursorRef} aria-hidden="true" />
 }

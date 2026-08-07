@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import type { FormEvent } from 'react'
 import { contact } from '../data/portfolio'
+import { SectionAtmosphere } from './SectionAtmosphere'
 
 type FormState = 'idle' | 'sending' | 'success' | 'error'
 type FieldErrors = { name?: string; challenge?: string }
@@ -46,6 +47,7 @@ export function Contact() {
 
   return (
     <section className="contact" id="contato" aria-labelledby="contact-title">
+      <SectionAtmosphere variant="contact" />
       <div className="section-kicker" data-reveal><span>05</span><p>CONTATO / PRÓXIMO PASSO</p></div>
       <div className="contact__grid">
         <div data-reveal>

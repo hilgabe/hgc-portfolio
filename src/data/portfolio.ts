@@ -213,6 +213,12 @@ export const experience = [
     description: 'Suporte à operação, desenvolvimento de sistemas internos e uso de IA generativa para pesquisa, prototipação, documentação e validação de soluções.',
   },
   {
+    period: 'Estágio',
+    role: 'Tecnologia e automação',
+    organization: 'Legacy Jurídico',
+    description: 'Apoio à operação de atendimento digital, configuração e validação de automações, agentes e fluxos para organizar processos comerciais e aprimorar a qualidade do atendimento.',
+  },
+  {
     period: 'Experiência anterior',
     role: 'Jovem Aprendiz — TI e Help Desk',
     organization: 'SET — Sindicato das Empresas de Transporte de São Luís',

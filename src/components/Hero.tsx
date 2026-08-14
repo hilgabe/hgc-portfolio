@@ -106,7 +106,10 @@ export function Hero() {
 
       <div className="hero-v3__grid">
         <div className="hero-v3__content">
-          <p className="hero-v3__signature"><i aria-hidden="true" /> HILSON GABRIEL CARVALHO</p>
+          <p className="hero-v3__signature">
+            <i aria-hidden="true" />
+            <span>HILSON GABRIEL CARVALHO</span>
+          </p>
           <div className="hero-v3__rule" aria-hidden="true"><i /></div>
           <h1 id="hero-title" aria-label="Soluções digitais para processos que precisam funcionar melhor.">
             <span>Soluções digitais</span>

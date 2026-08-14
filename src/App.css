@@ -167,8 +167,9 @@
 .code-token--value { color: #569cd6; }
 .hero-v3__grid { position: relative; z-index: 3; width: 100%; max-width: 1500px; min-height: calc(100svh - 186px); margin: 0 auto; display: grid; grid-template-columns: minmax(540px, .92fr) minmax(590px, 1.08fr); gap: clamp(28px, 4vw, 74px); align-items: center; }
 .hero-v3__content { position: relative; z-index: 4; padding-left: clamp(0px, 1.4vw, 22px); }
-.hero-v3__signature { margin: 0 0 28px; display: flex; align-items: center; gap: 15px; color: #f4f5fa; font-size: clamp(.86rem, 1.2vw, 1.15rem); font-weight: 560; letter-spacing: .24em; }
-.hero-v3__signature i { width: 17px; height: 17px; flex: 0 0 auto; background: linear-gradient(135deg, #2e4cff, #69a0ff); box-shadow: 0 0 18px rgba(46,76,255,.42); }
+.hero-v3__signature { margin: 0 0 28px; display: flex; align-items: center; gap: 14px; color: #f4f5fa; font-family: 'Barlow Condensed', 'Arial Narrow', sans-serif; font-size: clamp(1rem, 1.35vw, 1.28rem); font-weight: 600; line-height: 1; letter-spacing: .16em; text-transform: uppercase; }
+.hero-v3__signature span { display: inline-block; white-space: nowrap; transform: skewX(-4deg); }
+.hero-v3__signature i { width: 17px; height: 17px; flex: 0 0 auto; background: linear-gradient(135deg, #2e4cff, #69a0ff); box-shadow: 0 0 18px rgba(46,76,255,.42); transform: skewX(-18deg); }
 .hero-v3__rule { position: relative; width: min(100%, 650px); height: 1px; margin-bottom: 38px; background: linear-gradient(90deg, rgba(46,76,255,.95), rgba(46,76,255,.3) 75%, transparent); }
 .hero-v3__rule i { position: absolute; right: 0; top: -5px; width: 18px; height: 10px; background: var(--blue); transform: skewX(-38deg); }
 .hero-v3 h1 { max-width: 720px; margin: 0; font-family: 'Barlow Condensed', 'Arial Narrow', sans-serif; font-size: clamp(4.25rem, 5.45vw, 6.2rem); font-weight: 500; line-height: .86; letter-spacing: -.025em; text-transform: uppercase; }
@@ -472,7 +473,7 @@
   .section-atmosphere__mark { width: 340px; opacity: .028; }
   .section-atmosphere__orbit { width: 260px; opacity: .08; }
   .section-atmosphere__rail { display: none; }
-  .hero-v3__signature { margin-bottom: 22px; gap: 10px; font-size: .72rem; letter-spacing: .16em; }
+  .hero-v3__signature { margin-bottom: 22px; gap: 10px; font-size: .82rem; letter-spacing: .13em; }
   .hero-v3__signature i { width: 12px; height: 12px; }
   .hero-v3__rule { margin-bottom: 29px; }
   .hero-v3__eyebrow { font-size: .68rem; line-height: 1.55; }

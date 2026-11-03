@@ -6,8 +6,22 @@ export type Service = {
   tags: string[]
 }
 
+export type Highlight = {
+  title: string
+  text: string
+}
+
+export type Metric = {
+  value: string
+  label: string
+}
+
 export type Project = {
   slug: string
+  featured?: boolean
+  highlights: Highlight[]
+  metrics?: Metric[]
+  stack?: string[]
   label: string
   title: string
   summary: string
@@ -65,6 +79,14 @@ export const services: Service[] = [
 export const projects: Project[] = [
   {
     slug: 'invest-corretora',
+    highlights: [
+      { title: 'Seletor na primeira dobra', text: 'O visitante escolhe o que procura e chega ao produto certo em um clique.' },
+      { title: 'Planos de saúde em foco', text: 'A especialidade da corretora ganha prioridade sem esconder os demais seguros.' },
+      { title: 'WhatsApp com contexto', text: 'Cada chamada para cotação já leva o produto escolhido na mensagem.' },
+      { title: 'Pensado para o celular', text: 'Jornada responsiva, com leitura confortável e CTAs ao alcance do polegar.' },
+      { title: 'Transparência comercial', text: 'Avisos e condições variáveis permanecem visíveis, sem promessas absolutas.' },
+    ],
+    stack: ['React', 'TypeScript', 'Vite', 'Vercel'],
     label: 'Website comercial',
     title: 'Invest Corretora',
     summary: 'Uma jornada comercial responsiva para apresentar seguros, priorizar planos de saúde e conduzir cada interesse ao atendimento certo.',
@@ -101,6 +123,19 @@ export const projects: Project[] = [
   },
   {
     slug: 'tatica-fc',
+    highlights: [
+      { title: 'Três modalidades', text: 'Campo, society e futsal com quantidades de jogadores e formações próprias.' },
+      { title: 'Arrastar e soltar', text: 'Reposicionamento livre dos jogadores, no mouse ou no toque.' },
+      { title: 'Exporta em PNG', text: 'A escalação vira imagem pronta para o grupo do time.' },
+      { title: 'Compartilha por link', text: 'Quem recebe abre a mesma formação, sem instalar nada.' },
+      { title: 'Funciona sem nuvem', text: 'Se a nuvem não estiver configurada, o uso básico continua local.' },
+    ],
+    metrics: [
+      { value: '3', label: 'modalidades suportadas' },
+      { value: 'PNG', label: 'exportação da escalação' },
+      { value: 'Link', label: 'compartilhamento direto' },
+    ],
+    stack: ['TypeScript', 'Drag & drop', 'Exportação PNG', 'Vercel'],
     label: 'Produto web interativo',
     title: 'Tática FC',
     summary: 'Uma prancheta digital responsiva para montar, personalizar, salvar e compartilhar escalações de campo, society e futsal.',
@@ -136,40 +171,72 @@ export const projects: Project[] = [
   },
   {
     slug: 'opentask',
-    label: 'Sistema interno de gestão de TI',
+    featured: true,
+    label: 'Plataforma de TI · web + aplicativo Windows',
     title: 'OpenTask',
-    summary: 'Workspace e portal para organizar chamados, inventário de equipamentos, vínculos com funcionários e indicadores de SLA em uma única operação.',
-    context: 'A operação de TI precisava reunir solicitações, ativos e responsáveis em uma visão rastreável, com prioridades e tempos de atendimento claros.',
-    audience: 'Equipe de TI e funcionários que abrem e acompanham solicitações.',
-    before: 'Chamados, inventário e metas de atendimento estavam separados em planilhas e controles dispersos, dificultando a leitura da fila e do patrimônio.',
+    summary: 'Central de atendimento e inventário de TI da Elétrica Visão: chamados com SLA em horário comercial, patrimônio ligado às pessoas, portal do colaborador e um aplicativo Windows que reporta o estado de cada computador.',
+    context: 'A TI da Elétrica Visão atendia por Teams, WhatsApp, Planner e conversas presenciais. Faltava um lugar único para registrar pedidos, medir prazos e saber quem usa qual equipamento.',
+    audience: 'Equipe de TI (workspace), colaboradores de todos os setores (portal e aplicativo Windows) e gestores que acompanham indicadores.',
+    before: 'Pedidos se perdiam entre canais, o inventário vivia em planilhas e ninguém conseguia responder com segurança quanto tempo um atendimento levou nem qual equipamento estava com quem.',
     constraints: [
-      'Separar a workspace da equipe técnica do portal utilizado pelos funcionários.',
-      'Relacionar equipamentos, acessórios e responsáveis dentro da mesma jornada.',
-      'Representar prioridades, estados, histórico e SLA sem antecipar uma implantação ainda em desenvolvimento.',
+      'Dados pessoais reais de colaboradores: acesso por perfil, auditoria e nada de dados reais no código.',
+      'Prazo de atendimento precisa seguir o expediente da empresa, não o relógio de 24 horas.',
+      'Inventário confiável sem depender de digitação manual em cada computador.',
+      'Separar o que a TI faz do que o colaborador vê, sem duplicar a fonte de verdade dos vínculos.',
     ],
-    solution: 'Protótipo funcional com workspace operacional, portal do funcionário, fila de chamados, inventário, vínculos de equipamentos e acompanhamento de indicadores.',
+    solution: 'Três frentes sobre o mesmo banco: o Workspace da TI (chamados, inventário, pessoas, indicadores e logs), o Portal do colaborador (abrir e acompanhar pedidos e ver o próprio equipamento) e o aplicativo OpenTask para Windows, que faz login pelo navegador e envia o inventário do computador.',
     decisions: [
-      'A visão geral concentra fila ativa, atrasos, tempo de primeira resposta e ativos vinculados.',
-      'Cada chamado possui prioridade, estado, histórico e ações coerentes com o andamento do atendimento.',
-      'Inventário, funcionários e vínculos compartilham o mesmo contexto operacional.',
+      'Regras críticas moram no banco: número, datas, prazo de SLA e linha do tempo são decididos pelo servidor e não podem ser alterados pelo navegador.',
+      'O SLA conta em horário comercial e só pausa em "aguardando usuário" ou "aguardando terceiro"; a pausa interna do técnico não para o relógio.',
+      'Chamado não se exclui e só se resolve com o veredito da TI registrado, o que preserva um histórico confiável.',
+      'O responsável por um equipamento é derivado dos vínculos, nunca de um segundo cadastro paralelo.',
+      'No aplicativo, a senha nunca passa pelo programa: o login é confirmado no navegador por um código de pareamento.',
     ],
-    role: 'Levantamento do processo, modelagem dos fluxos, arquitetura da informação, desenvolvimento do protótipo responsivo e validação das jornadas principais.',
+    role: 'Concepção do produto, levantamento do processo com a TI, modelagem de dados, desenvolvimento front-end e back-end, aplicativo Windows, testes e publicação, com IA generativa como apoio e validação humana em cada decisão.',
     outcomes: [
-      'Workspace técnico e portal do funcionário funcionando no protótipo.',
-      'Cadastro e vínculo de funcionários, equipamentos e acessórios.',
-      'Abertura e acompanhamento de chamados com prioridade, status e indicadores de SLA.',
+      'Workspace, portal e aplicativo Windows em uso interno, com autenticação por convite e verificação em duas etapas para a equipe de TI.',
+      'Chamados com prazo em horário comercial, sessões de trabalho, veredito de resolução e linha do tempo imutável.',
+      'Inventário de computadores, acessórios, vínculos e programas, atualizado automaticamente pelo aplicativo.',
+      'Indicadores de SLA calculados a partir dos chamados reais.',
     ],
     nextSteps: [
-      'Conectar autenticação e persistência aos dados oficiais da operação.',
-      'Validar permissões, regras de negócio e implantação com os usuários responsáveis.',
+      'Abrir e acompanhar chamados direto pelo aplicativo Windows.',
+      'Assinar digitalmente o instalador e ampliar as notificações do atendimento.',
+      'Considerar feriados no cálculo do SLA.',
     ],
-    status: 'Protótipo funcional · em desenvolvimento',
-    image: '/projects/opentask.png',
-    availabilityLabel: 'Protótipo local · sem link público',
+    status: 'Em uso interno · em evolução',
+    image: '/projects/opentask-workspace.png',
+    availabilityLabel: 'Sistema interno · acesso restrito',
     repositoryLabel: 'Repositório privado',
+    metrics: [
+      { value: '11', label: 'áreas no workspace da TI' },
+      { value: '22', label: 'migrações SQL versionadas' },
+      { value: '3', label: 'Edge Functions de servidor' },
+      { value: '0.3', label: 'versão atual do app Windows' },
+    ],
+    stack: ['React 19', 'TypeScript', 'Vite', 'Supabase', 'PostgreSQL + RLS', '.NET 10 · WPF', 'Vercel'],
+    highlights: [
+      { title: 'Três produtos, um banco', text: 'Workspace da TI, portal do colaborador e aplicativo Windows compartilham a mesma base e as mesmas regras.' },
+      { title: 'SLA em horário comercial', text: 'Prazo calculado no banco (seg–sex, 07–12h e 13–17h), com pausa só quando o chamado aguarda usuário ou terceiro.' },
+      { title: 'Linha do tempo imutável', text: 'Chamados não se apagam. Eventos, sessões de trabalho e o veredito da TI ficam registrados e só o banco escreve o histórico.' },
+      { title: 'Inventário ligado às pessoas', text: 'Computadores, acessórios e responsáveis conectados, com o histórico de cada troca e baixa em vez de exclusão.' },
+      { title: 'App Windows com login seguro', text: 'Pareamento por código confirmado no navegador, instalação sem administrador e SHA-256 publicado para cada versão.' },
+      { title: 'Inventário automático', text: 'O aplicativo envia configuração, antivírus e programas instalados após o login e a cada 6 horas, e corrige o cadastro quando diverge.' },
+      { title: 'Segurança em camadas', text: 'RLS em todas as tabelas, verificação em duas etapas para a TI, cabeçalhos de segurança, auditoria e contas só por convite.' },
+      { title: 'LGPD na arquitetura', text: 'Função de anonimização de perfil, fotos em bucket privado e dados reais fora do código-fonte.' },
+      { title: 'Testado no banco e nas funções', text: 'Testes SQL de RLS, integridade, 2FA e login do app, além de testes de lógica nas Edge Functions.' },
+    ],
   },
   {
     slug: 'vision-all',
+    highlights: [
+      { title: 'Leitura em segundos', text: 'Os números da operação aparecem em cartões de leitura imediata.' },
+      { title: 'Busca e filtros', text: 'Localiza ordens por número, cliente ou status sem abrir relatório.' },
+      { title: 'Alertas de prazo', text: 'Prazos críticos e pendências ficam em destaque para direcionar a equipe.' },
+      { title: 'Visão por atividade', text: 'A distribuição por etapa mostra onde o trabalho está acumulando.' },
+      { title: 'Campo e gestão', text: 'Layout responsivo, útil tanto no celular quanto no computador.' },
+      { title: 'Em operação real', text: 'Construído para a rotina industrial da Elétrica Visão.' },
+    ],
     label: 'Sistema de acompanhamento de O.S.',
     title: 'Vision All',
     summary: 'Sistema responsivo para acompanhar ordens de serviço industriais, prioridades, status, prazos e indicadores da operação em tempo real.',

@@ -1,5 +1,6 @@
 import { projects } from '../data/portfolio'
 import { SectionAtmosphere } from './SectionAtmosphere'
+import './showcase.css'
 
 export function Projects() {
   return (
@@ -13,9 +14,10 @@ export function Projects() {
 
       <div className="project-cards-v3">
         {projects.map((project, index) => (
-          <article className="project-card-v3" key={project.slug} data-reveal>
+          <article className={`project-card-v3${project.featured ? ' project-card-v3--featured' : ''}`} key={project.slug} data-reveal>
             <a className="project-card-v3__image" href={`/projetos/${project.slug}`} aria-label={`Ler estudo de caso: ${project.title}`}>
-              <img src={project.image} alt={`Captura real do projeto ${project.title}`} width="1440" height="900" loading="lazy" />
+              {project.featured && <em className="project-card-v3__badge">Destaque · veja as telas</em>}
+              <img src={project.image} alt={project.featured ? `Modelo da interface do projeto ${project.title}, com dados fictícios` : `Captura real do projeto ${project.title}`} width="1440" height="900" loading="lazy" />
               <span>LER ESTUDO DE CASO ↗</span>
             </a>
 
@@ -27,6 +29,10 @@ export function Projects() {
               <p className="project-card-v3__label">{project.label}</p>
               <h3>{project.title}</h3>
               <p className="project-card-v3__summary">{project.summary}</p>
+              <p className="project-card-v3__chips-title">Diferenciais</p>
+              <ul className="project-card-v3__chips">
+                {project.highlights.slice(0, 4).map((item) => <li key={item.title}>{item.title}</li>)}
+              </ul>
 
               <div className="project-card-v3__actions">
                 <a href={`/projetos/${project.slug}`}>Ler estudo de caso <span aria-hidden="true">→</span></a>

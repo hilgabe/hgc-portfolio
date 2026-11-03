@@ -1,6 +1,8 @@
 import { useEffect } from 'react'
 import type { Project } from '../data/portfolio'
 import { contact, projects } from '../data/portfolio'
+import { OpenTaskShowcase } from './OpenTaskShowcase'
+import './showcase.css'
 
 export function CaseStudy({ project }: { project: Project }) {
   const currentIndex = projects.findIndex((item) => item.slug === project.slug)
@@ -35,6 +37,9 @@ export function CaseStudy({ project }: { project: Project }) {
           {project.liveUrl
             ? <a className="button-link button-link--primary" href={project.liveUrl} target="_blank" rel="noreferrer">Abrir projeto publicado <span aria-hidden="true">↗</span></a>
             : <span className="case-private">{project.availabilityLabel}</span>}
+          {project.slug === 'opentask' && (
+            <a className="button-link button-link--primary" href="#galeria">Ver modelos das telas <span aria-hidden="true">↓</span></a>
+          )}
           {project.repositoryUrl
             ? <a className="button-link button-link--ghost" href={project.repositoryUrl} target="_blank" rel="noreferrer">Ver repositório <span aria-hidden="true">↗</span></a>
             : <span className="case-private">{project.repositoryLabel}</span>}
@@ -43,8 +48,8 @@ export function CaseStudy({ project }: { project: Project }) {
 
       <section className={`case-media${project.mobileImage ? '' : ' case-media--single'}`} aria-label={`Capturas do projeto ${project.title}`}>
         <figure className="case-media__desktop">
-          <img src={project.image} alt={`Tela desktop real do projeto ${project.title}`} width="1440" height="900" />
-          <figcaption>Captura real · desktop</figcaption>
+          <img src={project.image} alt={project.featured ? `Modelo da interface do projeto ${project.title}, com dados fictícios` : `Tela desktop real do projeto ${project.title}`} width="1440" height="900" />
+          <figcaption>{project.featured ? 'Modelo da interface · dados fictícios' : 'Captura real · desktop'}</figcaption>
         </figure>
         {project.mobileImage && (
           <figure className="case-media__mobile">
@@ -53,6 +58,36 @@ export function CaseStudy({ project }: { project: Project }) {
           </figure>
         )}
       </section>
+
+      {project.metrics && (
+        <section className="case-metrics" aria-label={`Números do projeto ${project.title}`}>
+          {project.metrics.map((metric) => <div key={metric.label} data-reveal><strong>{metric.value}</strong><span>{metric.label}</span></div>)}
+        </section>
+      )}
+
+      <section className="case-diff" aria-labelledby="case-diff-title">
+        <div className="case-diff__head" data-reveal>
+          <div className="case-section__index">DIFERENCIAIS</div>
+          <h2 id="case-diff-title">O que faz este projeto <em>valer a visita.</em></h2>
+        </div>
+        <ul className="case-diff__grid">
+          {project.highlights.map((item, index) => (
+            <li key={item.title} data-reveal>
+              <span>{String(index + 1).padStart(2, '0')}</span>
+              <h3>{item.title}</h3>
+              <p>{item.text}</p>
+            </li>
+          ))}
+        </ul>
+        {project.stack && (
+          <div className="case-stack" aria-label="Tecnologias utilizadas">
+            <small>Stack</small>
+            {project.stack.map((item) => <span key={item}>{item}</span>)}
+          </div>
+        )}
+      </section>
+
+      {project.slug === 'opentask' && <OpenTaskShowcase />}
 
       <section className="case-section" aria-labelledby="case-context-title">
         <div className="case-section__index">01 / PONTO DE PARTIDA</div>
